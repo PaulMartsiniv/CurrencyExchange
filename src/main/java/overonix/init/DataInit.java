@@ -16,13 +16,16 @@ import overonix.entity.ThirdSource;
 import overonix.service.CurrencyDetailsService;
 import overonix.service.CurrencyExchangeRateService;
 import overonix.service.ThirdSourceService;
+import overonix.utils.ClientReaderImpl;
 import overonix.utils.JsonReader;
-import overonix.utils.ReaderImpl;
+import overonix.utils.JsonReaderImpl;
+import overonix.utils.urls.ExchangeRateApiCom;
 import overonix.utils.urls.ExchangeRatesApiIo;
 
 @Component
 @AllArgsConstructor
 public class DataInit implements ApplicationRunner {
+    private static final String API_KAY = "******";
     private final CurrencyDetailsService detailsService;
     private final CurrencyExchangeRateService currencyService;
     private final ThirdSourceService thirdSourceService;
@@ -31,30 +34,28 @@ public class DataInit implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         ThirdSource source = ThirdSource.builder()
                 .url(ExchangeRatesApiIo.URL)
-                .apikey(ExchangeRatesApiIo.APIKEY)
+                .apikey(API_KAY)
                 .build();
 
         saveCurrencyV1();
         /*
-        saveCurrencyV2(ThirdSource.builder().url(FreeCurrencyApi.URL)
-                        .apikey(FreeCurrencyApi.APIKEY).build(),
-                "base_currency", "time_last_update_unix","rates");
-        saveCurrencyV2(ThirdSource.builder().url(ExchangeRateApiCom.URL2)
-                        .apikey(ExchangeRateApiCom.APIKEY).build(),
-                "base_code", "time_last_update_unix","rates");
-        saveCurrencyV2(ThirdSource.builder().url(ExchangeRatesApiIo.URL)
-                        .apikey(ExchangeRatesApiIo.APIKEY).build(),
-                "base", "timestamp","rates");
-         */
+        saveCurrencyV2(new ThirdSource(API_KAY, FreeCurrencyApi.URL),
+                "base_currency", "timestamp","data");
+        */
+        saveCurrencyV2(new ThirdSource(API_KAY, ExchangeRateApiCom.URL2),
+                "base_code", "time_last_update_unix", "conversion_rates");
+
+        saveCurrencyV2(new ThirdSource(API_KAY, ExchangeRatesApiIo.URL),
+                "base", "timestamp", "rates");
+
     }
 
     private void saveCurrencyV1() {
         ThirdSource source = ThirdSource.builder()
-                .url(ExchangeRatesApiIo.URL)
-                .apikey(ExchangeRatesApiIo.APIKEY)
+                .url("api.exchangeratesapi.io")
+                .apikey(API_KAY)
                 .build();
-        thirdSourceService.save(source);
-        String[] split = new ReaderImpl().read(ExchangeRatesApiIo.URL).split(",");
+        String[] split = new ClientReaderImpl().read(ExchangeRatesApiIo.URL).split(",");
         List<CurrencyExchangeRate> list = new ArrayList<>();
         CurrencyDetails currencyDetails = new CurrencyDetails();
         for (String s : split) {
@@ -62,12 +63,9 @@ public class DataInit implements ApplicationRunner {
                 String base = s.replaceAll(".*([A-Z]{3}).*", "$1");
                 currencyDetails.setBase(base);
             }
-            CurrencyDetails save = null;
             if (s.contains("date")) {
                 String date = s.replaceAll("[^\\d+\\-]", "");
                 currencyDetails.setDate(LocalDate.parse(date));
-                currencyDetails.setSource(source);
-                save = detailsService.save(currencyDetails);
             }
             if (s.matches(".*\"(\\w{3})\":(\\d+\\.[0-9]+).*")) {
                 String[] array = s.replaceAll(".*\"(\\w{3})\":(\\d+\\.[0-9]+).*", "$1:$2")
@@ -75,32 +73,37 @@ public class DataInit implements ApplicationRunner {
                 list.add(CurrencyExchangeRate.builder()
                         .rate(Double.parseDouble(array[1]))
                         .name(array[0])
-                        .currency_details_id(save)
                         .build());
             }
         }
+        currencyDetails.setRates(list);
+        source.setDetails(currencyDetails);
         list.forEach(currencyService::save);
+        detailsService.save(currencyDetails);
+        thirdSourceService.save(source);
     }
 
-    private void saveCurrencyV2(ThirdSource source, String baseName, String timestamp,
-                                String ratesName) {
-        Map<String, Object> map = JsonReader.readJson(source.getUrl());
-        LocalDate date = Instant.ofEpochSecond((Long) map.get(timestamp))
+    private void saveCurrencyV2(ThirdSource source, String baseKey, String timestampKey,
+                                String ratesKey) {
+        JsonReader jsonReader = new JsonReaderImpl();
+        Map<String, Object> map = jsonReader.readJson(source.getUrl());
+        long timestamp = Long.parseLong(map.get(timestampKey).toString());
+        LocalDate date = Instant.ofEpochSecond(timestamp)
                 .atZone(ZoneId.systemDefault()).toLocalDate();
-        CurrencyDetails currencyDetails = CurrencyDetails.builder()
-                .base((String) map.get(baseName))
-                .date(date)
-                .source(thirdSourceService.save(source))
-                .build();
-        Map<String, Double> rates = (Map<String, Double>) map.get(ratesName);
+        CurrencyDetails details = new CurrencyDetails(date, (String) map.get(baseKey));
+        Map<String, Number> rates = (Map<String, Number>) map.get(ratesKey);
         List<CurrencyExchangeRate> list = new ArrayList<>();
-        for (Map.Entry<String, Double> entry : rates.entrySet()) {
+        for (Map.Entry<String, Number> entry : rates.entrySet()) {
             list.add(CurrencyExchangeRate.builder()
-                    .rate(entry.getValue())
+                    .rate(entry.getValue().doubleValue())
                     .name(entry.getKey())
-                    .currency_details_id(detailsService.save(currencyDetails))
                     .build());
         }
+        details.setRates(list);
+        source.setDetails(details);
         list.forEach(currencyService::save);
+        detailsService.save(details);
+        thirdSourceService.save(source);
     }
+
 }

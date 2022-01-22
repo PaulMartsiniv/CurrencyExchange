@@ -1,13 +1,12 @@
 package overonix.service.impl;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import overonix.dao.CurrencyExchangeRateDao;
-import overonix.dao.specification.CurrencySpecificationManager;
+import overonix.dao.specification.manegerimpl.CurrencySpecificationManager;
 import overonix.entity.CurrencyExchangeRate;
 import overonix.service.CurrencyExchangeRateService;
 
@@ -18,18 +17,8 @@ public class CurrencyExchangeRateServiceImpl implements CurrencyExchangeRateServ
     CurrencyExchangeRateDao currencyDao;
 
     @Override
-    public List<CurrencyExchangeRate> getExchangeRatesForCurrencies() {
-        return currencyDao.findAll();
-    }
-
-    @Override
     public List<String> getAvailableCurrencyCodes() {
         return currencyDao.getAvailableCurrencyCodes();
-    }
-
-    @Override
-    public List<CurrencyExchangeRate> getExchangeRatesHistory(LocalDate data) {
-        return currencyDao.getExchangeRatesHistory(data);
     }
 
     @Override

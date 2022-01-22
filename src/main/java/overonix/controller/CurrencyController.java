@@ -1,6 +1,5 @@
 package overonix.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,21 +30,5 @@ public class CurrencyController {
     @GetMapping(value = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getAvailableCurrencyCodes() {
         return currencyService.getAvailableCurrencyCodes();
-    }
-
-    @GetMapping(value = "/get_history", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CurrencyExchangeRateResponseDto> getExchangeRatesHistory(@RequestParam String date) {
-        LocalDate localDate = LocalDate.parse(date.trim());
-        return currencyService.getExchangeRatesHistory(localDate).stream()
-                .map(currencyExchangeRateMapper::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping(value = "/createHistoryUrl", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createHistoryUrl(@RequestParam String base, @RequestParam String date_from,
-                                   @RequestParam String date_to) {
-        String url = "&base_currency=" + base + "&date_from=" + date_from
-                + "&date_to=" + date_to;
-        return url;
     }
 }

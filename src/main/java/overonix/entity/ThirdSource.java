@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,11 @@ public class ThirdSource {
     Long id;
     String apikey;
     String url;
+    @OneToOne(targetEntity = CurrencyDetails.class)
+    CurrencyDetails details;
+
+    public ThirdSource(String apikey, String url) {
+        this.apikey = apikey;
+        this.url = url;
+    }
 }

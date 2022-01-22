@@ -1,5 +1,6 @@
-package overonix.dao.specification.currency;
+package overonix.dao.specification.filters;
 
+import java.time.LocalDate;
 import javax.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -14,9 +15,9 @@ public class CurrencyDateSpecification implements SpecificationProvider<Currency
     @Override
     public Specification<CurrencyDetails> getSpecification(String[] params) {
         return (root, query, cb) -> {
-            CriteriaBuilder.In<String> predicate = cb.in(root.get(FIELD_NAME));
+            CriteriaBuilder.In<LocalDate> predicate = cb.in(root.get(FIELD_NAME));
             for (String value : params) {
-                predicate.value(value);
+                predicate.value(LocalDate.parse(value));
             }
             return cb.and(predicate, predicate);
         };

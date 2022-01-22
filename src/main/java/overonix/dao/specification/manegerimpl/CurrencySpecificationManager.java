@@ -1,4 +1,4 @@
-package overonix.dao.specification;
+package overonix.dao.specification.manegerimpl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import overonix.dao.specification.SpecificationManager;
+import overonix.dao.specification.SpecificationProvider;
 import overonix.entity.CurrencyExchangeRate;
 
 @Component

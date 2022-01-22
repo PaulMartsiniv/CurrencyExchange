@@ -1,4 +1,4 @@
-package overonix.dao.specification.currency;
+package overonix.dao.specification.filters;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.domain.Specification;

@@ -1,5 +1,5 @@
 package overonix.utils;
 
-public interface Reader {
+public interface ClientReader {
     String read(String url);
 }

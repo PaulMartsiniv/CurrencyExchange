@@ -12,6 +12,7 @@ public class CurrencyDetailsMapper {
                 .id(currencyDetails.getId())
                 .base(currencyDetails.getBase())
                 .date(currencyDetails.getDate())
+                .rates(currencyDetails.getRates())
                 .build();
     }
 
@@ -19,6 +20,7 @@ public class CurrencyDetailsMapper {
         return CurrencyDetails.builder()
                 .base(requestDto.getBase())
                 .date(requestDto.getDate())
+                .rates(requestDto.getRates())
                 .build();
     }
 }

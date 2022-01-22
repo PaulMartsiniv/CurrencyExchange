@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import overonix.entity.CurrencyDetails;
 
 @Data
 @Builder
@@ -12,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class ThirdSourceRequestDto {
     String apikey;
     String url;
+    CurrencyDetails details;
 }

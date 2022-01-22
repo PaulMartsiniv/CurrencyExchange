@@ -1,12 +1,13 @@
 package overonix.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +30,12 @@ public class CurrencyDetails {
     Long id;
     private LocalDate date;
     private String base;
-    @ManyToOne
-    @JoinColumn(name = "source_id")
-    private ThirdSource source;
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = CurrencyExchangeRate.class)
+    @ToString.Exclude
+    private List<CurrencyExchangeRate> rates;
+
+    public CurrencyDetails(LocalDate date, String base) {
+        this.date = date;
+        this.base = base;
+    }
 }

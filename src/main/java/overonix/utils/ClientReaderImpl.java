@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ReaderImpl implements Reader {
+public class ClientReaderImpl implements ClientReader {
     @Override
     public String read(String url) {
         StringBuilder stringBuilder = new StringBuilder();

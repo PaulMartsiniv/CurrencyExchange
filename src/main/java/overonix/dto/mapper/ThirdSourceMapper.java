@@ -12,6 +12,7 @@ public class ThirdSourceMapper {
                 .id(source.getId())
                 .apikey(source.getApikey())
                 .url(source.getUrl())
+                .details(source.getDetails())
                 .build();
     }
 
@@ -19,6 +20,7 @@ public class ThirdSourceMapper {
         return ThirdSource.builder()
                 .apikey(requestDto.getApikey())
                 .url(requestDto.getUrl())
+                .details(requestDto.getDetails())
                 .build();
     }
 }

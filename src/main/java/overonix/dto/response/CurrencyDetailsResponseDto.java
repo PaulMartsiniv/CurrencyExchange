@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import overonix.entity.CurrencyExchangeRate;
 
 @Data
 @Builder
@@ -15,5 +16,5 @@ public class CurrencyDetailsResponseDto {
     Long id;
     private String base;
     private LocalDate date;
-    private List<Long> rateIds;
+    private List<CurrencyExchangeRate> rates;
 }
