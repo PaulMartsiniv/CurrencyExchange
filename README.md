@@ -16,4 +16,7 @@ is a simple application for monitoring currencies against a base currency
      - you can also use a name filter for it (like `?nameIn=UAH&nameIn=USD`)
  - `http://localhost:8081/currency/available`
    - this example will return the result with information about the current set of currency codes
+   
+ - Docker site `https://hub.docker.com/r/pavlomartsiniv/currency-exchange`
  
+ - Docker Pull Command `docker pull pavlomartsiniv/currency-exchange`
