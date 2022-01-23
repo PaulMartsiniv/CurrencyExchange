@@ -11,8 +11,6 @@ import overonix.entity.CurrencyExchangeRate;
 public interface CurrencyExchangeRateDao extends JpaRepository<CurrencyExchangeRate, Long>,
         JpaSpecificationExecutor<CurrencyExchangeRate> {
 
-    List<CurrencyExchangeRate> findAll();
-
     @Query(value = "SELECT c.name FROM CurrencyExchangeRate c")
     List<String> getAvailableCurrencyCodes();
 }

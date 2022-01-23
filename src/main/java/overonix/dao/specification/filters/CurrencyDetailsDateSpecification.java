@@ -8,7 +8,7 @@ import overonix.dao.specification.SpecificationProvider;
 import overonix.entity.CurrencyDetails;
 
 @Component
-public class CurrencyDateSpecification implements SpecificationProvider<CurrencyDetails> {
+public class CurrencyDetailsDateSpecification implements SpecificationProvider<CurrencyDetails> {
     private static final String FILTER_KEY = "dateIn";
     private static final String FIELD_NAME = "date";
 
