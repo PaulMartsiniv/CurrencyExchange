@@ -2,6 +2,7 @@ package overonix.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +33,7 @@ public class CurrencyController {
     }
 
     @GetMapping(value = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getAvailableCurrencyCodes() {
+    public Set<String> getAvailableCurrencyCodes() {
         logger.info("getAvailableCurrencyCodes method in class CurrencyController was called. ");
         return currencyService.getAvailableCurrencyCodes();
     }

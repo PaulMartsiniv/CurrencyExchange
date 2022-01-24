@@ -1,5 +1,6 @@
 package overonix.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +29,15 @@ public class DetailsController {
         logger.info("findAll method in class DetailsController was called."
                 + " Params: params = {}", params);
         return detailsService.findAll(params).stream()
+                .map(detailsMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<CurrencyDetailsResponseDto> findAllByDateBetween(@RequestParam String from,
+                                               @RequestParam String to) {
+        logger.info("between method in class DetailsController was called."
+                + " Params: params = {} - {}", from, to);
+        return detailsService.findAllByDateBetween(from, to).stream()
                 .map(detailsMapper::toResponseDto)
                 .collect(Collectors.toList());
     }

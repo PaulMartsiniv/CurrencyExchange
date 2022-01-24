@@ -1,7 +1,10 @@
 package overonix.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,8 @@ public class CurrencyExchangeRateServiceImpl implements CurrencyExchangeRateServ
     CurrencyExchangeRateDao currencyDao;
 
     @Override
-    public List<String> getAvailableCurrencyCodes() {
-        return currencyDao.getAvailableCurrencyCodes();
+    public Set<String> getAvailableCurrencyCodes() {
+        return new HashSet<>(currencyDao.getAvailableCurrencyCodes());
     }
 
     @Override

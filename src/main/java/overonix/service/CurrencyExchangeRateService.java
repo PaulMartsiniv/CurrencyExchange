@@ -2,10 +2,11 @@ package overonix.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import overonix.entity.CurrencyExchangeRate;
 
 public interface CurrencyExchangeRateService {
-    List<String> getAvailableCurrencyCodes();
+    Set<String> getAvailableCurrencyCodes();
 
     CurrencyExchangeRate save(CurrencyExchangeRate currency);
 

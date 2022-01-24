@@ -1,5 +1,6 @@
 package overonix.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,12 @@ public class CurrencyDetailsServiceImpl implements CurrencyDetailsService {
                     ? Specification.where(s) : specification.and(s);
         }
         return dao.findAll(specification);
+    }
+
+    @Override
+    public List<CurrencyDetails> findAllByDateBetween(String from, String to) {
+        LocalDate parseFrom = LocalDate.parse(from);
+        LocalDate parseTo = LocalDate.parse(to);
+        return dao.findAllByDateBetween(parseFrom, parseTo);
     }
 }
