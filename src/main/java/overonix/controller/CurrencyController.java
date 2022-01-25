@@ -24,7 +24,7 @@ public class CurrencyController {
     CurrencyExchangeRateService currencyService;
     CurrencyExchangeRateMapper currencyExchangeRateMapper;
 
-    @GetMapping(value = "/get_all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CurrencyExchangeRateResponseDto> findAll(@RequestParam Map<String, String> params) {
         logger.info("findAll method in class CurrencyController was called. Params: params = {}", params);
         return currencyService.findAll(params).stream()

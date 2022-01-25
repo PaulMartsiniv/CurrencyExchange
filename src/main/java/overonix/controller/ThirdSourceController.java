@@ -23,7 +23,7 @@ public class ThirdSourceController {
     ThirdSourceService sourceService;
     ThirdSourceMapper sourceMapper;
 
-    @GetMapping(value = "/get_all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ThirdSourceResponseDto> findAll(@RequestParam Map<String, String> params) {
         logger.info("findAll method in class ThirdSourceController was called."
                 + " Params: params = {}", params);
