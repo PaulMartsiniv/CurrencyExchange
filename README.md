@@ -1,4 +1,4 @@
- #Currency Exchange 
+ # Currency Exchange 
 is a simple application for monitoring currencies against a base currency
 
  ### typical ways to work with the application

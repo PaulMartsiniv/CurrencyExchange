@@ -27,10 +27,10 @@ import lombok.ToString;
 public class CurrencyDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     private LocalDate date;
     private String base;
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = CurrencyExchangeRate.class)
+    @OneToMany( targetEntity = CurrencyExchangeRate.class)
     @ToString.Exclude
     private List<CurrencyExchangeRate> rates;
 

@@ -25,7 +25,7 @@ public class ClientReaderImpl implements ClientReader {
                 throw new Exception("Error in API Call");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new RuntimeException("Can't get http URL connection", ex);
         }
         return stringBuilder.toString();
     }

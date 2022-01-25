@@ -25,50 +25,39 @@ import overonix.utils.urls.ExchangeRatesApiIo;
 @Component
 @AllArgsConstructor
 public class DataInit implements ApplicationRunner {
+    private static final String FIND_BASE = ".*([A-Z]{3}).*";
+    private static final String FIND_DATE = "[^\\d+\\-]";
+    private static final String FIND_RATE_NAME_AND_VALUE = ".*\"(\\w{3})\":(\\d+\\.[0-9]+).*";
     private static final String API_KAY = "******";
     private final CurrencyDetailsService detailsService;
     private final CurrencyExchangeRateService currencyService;
     private final ThirdSourceService thirdSourceService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        ThirdSource source = ThirdSource.builder()
-                .url(ExchangeRatesApiIo.URL)
-                .apikey(API_KAY)
-                .build();
-
+    public void run(ApplicationArguments args) {
         saveCurrencyV1();
-        /*
-        saveCurrencyV2(new ThirdSource(API_KAY, FreeCurrencyApi.URL),
-                "base_currency", "timestamp","data");
-        */
-        saveCurrencyV2(new ThirdSource(API_KAY, ExchangeRateApiCom.URL2),
+        saveCurrencyV2(new ThirdSource(API_KAY, ExchangeRateApiCom.URL),
                 "base_code", "time_last_update_unix", "conversion_rates");
-
         saveCurrencyV2(new ThirdSource(API_KAY, ExchangeRatesApiIo.URL),
                 "base", "timestamp", "rates");
-
     }
 
     private void saveCurrencyV1() {
-        ThirdSource source = ThirdSource.builder()
-                .url("api.exchangeratesapi.io")
-                .apikey(API_KAY)
-                .build();
+        ThirdSource source = new ThirdSource(API_KAY, "api.exchangeratesapi.io");
         String[] split = new ClientReaderImpl().read(ExchangeRatesApiIo.URL).split(",");
         List<CurrencyExchangeRate> list = new ArrayList<>();
         CurrencyDetails currencyDetails = new CurrencyDetails();
         for (String s : split) {
             if (s.contains("base")) {
-                String base = s.replaceAll(".*([A-Z]{3}).*", "$1");
+                String base = s.replaceAll(FIND_BASE, "$1");
                 currencyDetails.setBase(base);
             }
             if (s.contains("date")) {
-                String date = s.replaceAll("[^\\d+\\-]", "");
+                String date = s.replaceAll(FIND_DATE, "");
                 currencyDetails.setDate(LocalDate.parse(date));
             }
-            if (s.matches(".*\"(\\w{3})\":(\\d+\\.[0-9]+).*")) {
-                String[] array = s.replaceAll(".*\"(\\w{3})\":(\\d+\\.[0-9]+).*", "$1:$2")
+            if (s.matches(FIND_RATE_NAME_AND_VALUE)) {
+                String[] array = s.replaceAll(FIND_RATE_NAME_AND_VALUE, "$1:$2")
                         .split(":");
                 list.add(CurrencyExchangeRate.builder()
                         .rate(Double.parseDouble(array[1]))
@@ -105,5 +94,4 @@ public class DataInit implements ApplicationRunner {
         detailsService.save(details);
         thirdSourceService.save(source);
     }
-
 }

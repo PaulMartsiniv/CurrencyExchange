@@ -25,10 +25,10 @@ public class ThirdSourceServiceImpl implements ThirdSourceService {
     public List<ThirdSource> findAll(Map<String, String> params) {
         Specification<ThirdSource> specification = null;
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            Specification<ThirdSource> s = thirdSourceSpecificationManager
+            Specification<ThirdSource> spec = thirdSourceSpecificationManager
                     .get(entry.getKey(), entry.getValue().split(","));
             specification = specification == null
-                    ? Specification.where(s) : specification.and(s);
+                    ? Specification.where(spec) : specification.and(spec);
         }
         return dao.findAll(specification);
     }

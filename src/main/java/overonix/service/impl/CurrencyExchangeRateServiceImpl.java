@@ -33,10 +33,10 @@ public class CurrencyExchangeRateServiceImpl implements CurrencyExchangeRateServ
     public List<CurrencyExchangeRate> findAll(Map<String, String> params) {
         Specification<CurrencyExchangeRate> specification = null;
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            Specification<CurrencyExchangeRate> s = currencySpecificationManager
+            Specification<CurrencyExchangeRate> spec = currencySpecificationManager
                     .get(entry.getKey(), entry.getValue().split(","));
             specification = specification == null
-                    ? Specification.where(s) : specification.and(s);
+                    ? Specification.where(spec) : specification.and(spec);
         }
         return currencyDao.findAll(specification);
     }

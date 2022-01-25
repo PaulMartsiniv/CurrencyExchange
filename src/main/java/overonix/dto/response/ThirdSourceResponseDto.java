@@ -11,8 +11,8 @@ import overonix.entity.CurrencyDetails;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThirdSourceResponseDto {
-    Long id;
-    String apikey;
-    String url;
-    CurrencyDetails details;
+    private Long id;
+    private String apikey;
+    private String url;
+    private CurrencyDetails details;
 }

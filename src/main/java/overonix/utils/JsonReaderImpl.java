@@ -12,11 +12,9 @@ public class JsonReaderImpl implements JsonReader {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> map = null;
         try {
-            map = objectMapper.readValue(json,
-                    new TypeReference<Map<String, Object>>() {
-                    });
+            map = objectMapper.readValue(json, new TypeReference<>(){});
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Can't read JSON: " + e);
+            throw new RuntimeException("Can't read JSON: ", e);
         }
         return map;
     }
