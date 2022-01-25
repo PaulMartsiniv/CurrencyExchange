@@ -3,7 +3,6 @@ package overonix.entity;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +29,7 @@ public class CurrencyDetails {
     private Long id;
     private LocalDate date;
     private String base;
-    @OneToMany( targetEntity = CurrencyExchangeRate.class)
+    @OneToMany(targetEntity = CurrencyExchangeRate.class)
     @ToString.Exclude
     private List<CurrencyExchangeRate> rates;
 

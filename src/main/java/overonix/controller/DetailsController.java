@@ -34,7 +34,7 @@ public class DetailsController {
 
     @GetMapping(value = "/date-between", produces = MediaType.APPLICATION_JSON_VALUE)
     List<CurrencyDetailsResponseDto> findAllByDateBetween(@RequestParam String from,
-                                               @RequestParam String to) {
+                                                          @RequestParam String to) {
         logger.info("between method in class DetailsController was called."
                 + " Params: params = {} - {}", from, to);
         return detailsService.findAllByDateBetween(from, to).stream()
