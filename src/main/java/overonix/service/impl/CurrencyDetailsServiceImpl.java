@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import overonix.dao.CurrencyDetailsDao;
+import overonix.dao.specification.SpecificationManager;
 import overonix.dao.specification.manegerimpl.CurrencyDetailsSpecificationManager;
 import overonix.entity.CurrencyDetails;
 import overonix.service.CurrencyDetailsService;
@@ -14,7 +15,7 @@ import overonix.service.CurrencyDetailsService;
 @Service
 @AllArgsConstructor
 public class CurrencyDetailsServiceImpl implements CurrencyDetailsService {
-    CurrencyDetailsSpecificationManager specificationManager;
+    SpecificationManager<CurrencyDetails> specificationManager;
     CurrencyDetailsDao dao;
 
     @Override
@@ -26,10 +27,10 @@ public class CurrencyDetailsServiceImpl implements CurrencyDetailsService {
     public List<CurrencyDetails> findAll(Map<String, String> params) {
         Specification<CurrencyDetails> specification = null;
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            Specification<CurrencyDetails> s = specificationManager
+            Specification<CurrencyDetails> spec = specificationManager
                     .get(entry.getKey(), entry.getValue().split(","));
             specification = specification == null
-                    ? Specification.where(s) : specification.and(s);
+                    ? Specification.where(spec) : specification.and(spec);
         }
         return dao.findAll(specification);
     }

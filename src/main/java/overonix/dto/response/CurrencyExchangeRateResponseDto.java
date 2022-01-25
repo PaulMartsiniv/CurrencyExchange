@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CurrencyExchangeRateResponseDto {
-    Long id;
+    private Long id;
     private String name;
     private double rate;
 }

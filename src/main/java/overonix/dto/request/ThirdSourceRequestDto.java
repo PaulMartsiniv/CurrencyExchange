@@ -11,7 +11,7 @@ import overonix.entity.CurrencyDetails;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThirdSourceRequestDto {
-    String apikey;
-    String url;
-    CurrencyDetails details;
+    private String apikey;
+    private String url;
+    private CurrencyDetails details;
 }

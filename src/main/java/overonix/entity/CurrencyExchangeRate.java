@@ -23,7 +23,7 @@ import lombok.ToString;
 public class CurrencyExchangeRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     private String name;
     private double rate;
 }

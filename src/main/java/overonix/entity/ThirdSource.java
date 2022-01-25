@@ -20,15 +20,15 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "the_third_source")
+@Table(name = "third_source")
 public class ThirdSource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String apikey;
-    String url;
+    private Long id;
+    private String apikey;
+    private String url;
     @OneToOne(targetEntity = CurrencyDetails.class)
-    CurrencyDetails details;
+    private CurrencyDetails details;
 
     public ThirdSource(String apikey, String url) {
         this.apikey = apikey;

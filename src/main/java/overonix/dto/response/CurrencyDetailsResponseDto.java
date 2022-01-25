@@ -13,7 +13,7 @@ import overonix.entity.CurrencyExchangeRate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CurrencyDetailsResponseDto {
-    Long id;
+    private Long id;
     private String base;
     private LocalDate date;
     private List<CurrencyExchangeRate> rates;
