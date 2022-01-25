@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import overonix.dao.CurrencyDetailsDao;
 import overonix.dao.specification.SpecificationManager;
-import overonix.dao.specification.manegerimpl.CurrencyDetailsSpecificationManager;
 import overonix.entity.CurrencyDetails;
 import overonix.service.CurrencyDetailsService;
 

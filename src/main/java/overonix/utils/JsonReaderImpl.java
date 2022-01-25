@@ -12,7 +12,8 @@ public class JsonReaderImpl implements JsonReader {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> map = null;
         try {
-            map = objectMapper.readValue(json, new TypeReference<>(){});
+            map = objectMapper.readValue(json, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Can't read JSON: ", e);
         }
